@@ -1,4 +1,7 @@
-genOutput = [];
+window.onload = fetchData('./data.json');
+
+const feriBoard = document.getElementById('feriBoard');
+elementCollection = [];
 
 // Fetch data
 function fetchData(fD){
@@ -17,16 +20,24 @@ function getData(d){
     const metaData = d.metadata;
     
     mainData.forEach((o) => {
-        genOutput.push(generate(o));
+        elementCollection.push(buildElement(o));
     });
+
+    render(elementCollection);
 }
 
 // Generate HTML element
-function generate(rowData){
+function buildElement(rowData){
     let g = rowData;
-    return `<div width="${g.width}" height="${g.height}" color="${g.color}" backgroundColor="${g.bg_color}">${g.value}</div>`;
+    return `<div style="width:${g.width}px; height:${g.height}px; color: ${g.color}; background-color: ${g.bg_color};">${g.value}</div>`;
 }
 
-console.log(genOutput);
+// Render elements
+function render(elements){
+    output = '';
+    elements.forEach((row) => {
+        this.output += row;
+    });
 
-window.onload = fetchData('./data.json');
+    feriBoard.innerHTML = output;
+}
