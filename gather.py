@@ -5,7 +5,6 @@
 # - (DONE) add get font color function
 
 class Gather:
-
     def __init__(self, wb_path):
         import json
         import openpyxl
@@ -13,8 +12,12 @@ class Gather:
         from openpyxl.worksheet.dimensions import ColumnDimension
 
         # Worksheet initialization for Read-Only
-        wb = load_workbook(filename = wb_path)
-        self.sheet = wb.active
+        try:
+            wb = load_workbook(filename = wb_path)
+        except FileNotFoundError as err:
+            raise err
+        else:
+            self.sheet = wb.active
 
         # Data storage
         self.excelData = {
