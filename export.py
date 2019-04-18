@@ -1,5 +1,5 @@
-import json
 from feri import Feri
+import json
 
 feri = Feri('./feri.xlsx')
 
