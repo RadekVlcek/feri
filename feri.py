@@ -12,7 +12,7 @@ class Feri:
 
         # Worksheet initialization for Read-Only
         try:
-            wb = load_workbook(filename = wb_path)
+            wb = load_workbook(filename=wb_path)
         except FileNotFoundError as err:
             raise err
         else:
@@ -85,7 +85,6 @@ class Feri:
             return self.prev_width
 
         else:
-            # Pripocitavaju sa tieto dve hodnoty - striedavo
             w_vals = (0.140625, 0.14453125)
             xl_points = 0.0
             pixels = 0

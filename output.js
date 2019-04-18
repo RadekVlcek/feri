@@ -29,7 +29,7 @@ function getData(d){
 // Generate HTML element
 function buildElement(rowData){
     let g = rowData;
-    return `<div style="width:${g.width}px; height:${g.height}px; color: ${g.color}; background-color: ${g.bg_color};">${g.value}</div>`;
+    return `<span style="float:left; width: ${g.width}px; height: ${g.height}px; color: ${g.color}; background-color: ${g.bg_color};">${g.value}</span>`;
 }
 
 // Render elements
