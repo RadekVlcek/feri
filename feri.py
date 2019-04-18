@@ -1,9 +1,10 @@
 # TODO:
 # - (DONE) consider bordering the area using thick border
-# - find a way to get data from Theme colors palette
-# - gather font family etc. as well
+# - (DONE) gather font family and font size as well
 # - (DONE) fix width obtain when changing width to more columns at once
 # - (DONE) add get font color function
+# - gather info about vertical & horizontal align
+# - find a way to get data from Theme colors palette
 
 class Feri:
     def __init__(self, wb_path):
@@ -86,10 +87,9 @@ class Feri:
             return self.prev_width
 
         else:
-            w_vals = (0.140625, 0.14453125)
-            xl_points = 0.0
-            pixels = 0
-            v = 0
+            xl_points, w_vals = 0.0, (0.140625, 0.14453125)
+            v = pixels = 0
+
             while xl_points < total_xl_points:
                 xl_points = xl_points + w_vals[v]
                 v = 1 - v
@@ -132,6 +132,24 @@ class Feri:
         if color.type == 'rgb':
             return self.get_final_rgb(color.rgb)
 
+    def get_font_family(self, cell):
+        return cell.font.name
+
+    def get_font_size(self, cell):
+        return cell.font.sz
+
+    def get_font_weight(self, cell):
+        return 'bold' if cell.font.b else 'normal'
+
+    def get_font_style(self, cell):
+        return 'italic' if cell.font.i else 'normal'
+
+    def get_text_decoration_style(self, cell):
+        return cell.font.u
+
+    def get_text_decoration(self, cell):
+        return 'line-through' if cell.font.strike else 'none'
+
     def get_border(self, sheet, row, column):
         cell = sheet.cell(row=row, column=column)
         left_border = cell.border.left.style
@@ -151,6 +169,10 @@ class Feri:
 
         for row in range(1, self.row_count+1):
             for column in range(1, self.col_count+1):
+
+                # exploring 
+                print(self.sheet.cell(row=row, column=column).font)
+
                 self.excelData['data'].append({
                     "row": row,
                     "column": column,
@@ -159,5 +181,11 @@ class Feri:
                     "width": self.get_column_width(column-1),
                     "color": self.get_color(self.sheet.cell(row=row, column=column)),
                     "bg_color": self.get_bg_color(self.sheet.cell(row=row, column=column)),
+                    "font_family": self.get_font_family(self.sheet.cell(row=row, column=column)),
+                    "font_size": self.get_font_size(self.sheet.cell(row=row, column=column)),
+                    "font_weight": self.get_font_weight(self.sheet.cell(row=row, column=column)),
+                    "font_style": self.get_font_style(self.sheet.cell(row=row, column=column)),
+                    "text_decoration": self.get_text_decoration(self.sheet.cell(row=row, column=column)),
+                    "text_decoration_style": self.get_text_decoration_style(self.sheet.cell(row=row, column=column)),
                     "border": self.get_border(self.sheet, row, column)
                 })
