@@ -1,6 +1,7 @@
 # TODO:
-# - consider bordering the area using thick border
-# - fix Theme colors functionality 
+# - (DONE) consider bordering the area using thick border
+# - find a way to get data from Theme colors palette
+# - gather font family etc. as well
 # - (DONE) fix width obtain when changing width to more columns at once
 # - (DONE) add get font color function
 
