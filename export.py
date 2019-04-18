@@ -18,3 +18,5 @@ export_data = json.dumps(data)
 export_file = open('data.json', 'w')
 export_file.write(export_data)
 export_file.close()
+
+print('done')
