@@ -1,7 +1,6 @@
 from gather import Gather
 
-workbook = './feri.xlsx'
-feri = Gather(workbook)
+feri = Gather('./feri.xlsx')
 
 data = feri.excelData
 
