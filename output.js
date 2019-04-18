@@ -1,5 +1,6 @@
-renderData = [];
+genOutput = [];
 
+// Fetch data
 function fetchData(fD){
     fetch(fD)
     .then(function(res){
@@ -16,14 +17,16 @@ function getData(d){
     const metaData = d.metadata;
     
     mainData.forEach((o) => {
-        saveRow(o, mainData.length);
+        genOutput.push(generate(o));
     });
 }
 
-function saveRow(rowData, length){
-    for(let i=0 ; i<length ; i++){
-        
-    }
+// Generate HTML element
+function generate(rowData){
+    let g = rowData;
+    return `<div width="${g.width}" height="${g.height}" color="${g.color}" backgroundColor="${g.bg_color}">${g.value}</div>`;
 }
+
+console.log(genOutput);
 
 window.onload = fetchData('./data.json');
