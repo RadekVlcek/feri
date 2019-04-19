@@ -104,7 +104,7 @@ class Feri:
         if value is not None:
             return value
         else:
-            return 'empty'
+            return ''
 
     def get_row_height(self, row):
         height = self.sheet.row_dimensions[row].height
@@ -183,9 +183,7 @@ class Feri:
             for column in range(1, self.col_count+1):
 
                 # exploring 
-                print(self.sheet.cell(row=row, column=column).alignment.vertical)
-
-                self.get_text_align(self.sheet.cell(row=row, column=column))
+                # print(self.sheet.cell(row=row, column=column).alignment.vertical)
 
                 self.excelData['data'].append({
                     "row": row,
@@ -194,13 +192,13 @@ class Feri:
                     "height": self.get_row_height(row),
                     "width": self.get_column_width(column-1),
                     "color": self.get_color(self.sheet.cell(row=row, column=column)),
-                    "bg_color": self.get_bg_color(self.sheet.cell(row=row, column=column)),
+                    "background_color": self.get_bg_color(self.sheet.cell(row=row, column=column)),
                     "font_family": self.get_font_family(self.sheet.cell(row=row, column=column)),
                     "font_size": self.get_font_size(self.sheet.cell(row=row, column=column)),
                     "font_weight": self.get_font_weight(self.sheet.cell(row=row, column=column)),
                     "font_style": self.get_font_style(self.sheet.cell(row=row, column=column)),
                     "text_decoration": self.get_text_decoration(self.sheet.cell(row=row, column=column)),
-                    "text_decoration_style": self.get_text_decoration_style(self.sheet.cell(row=row, column=column)),
+                    "text_decoration-style": self.get_text_decoration_style(self.sheet.cell(row=row, column=column)),
                     "text_align": self.get_text_align(self.sheet.cell(row=row, column=column)),
                     "vertical_align": self.get_vertical_align(self.sheet.cell(row=row, column=column)),
                     "border": self.get_border(self.sheet, row, column)
