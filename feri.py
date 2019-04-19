@@ -150,6 +150,18 @@ class Feri:
     def get_text_decoration(self, cell):
         return 'line-through' if cell.font.strike else 'none'
 
+    def get_text_align(self, cell):
+        if cell.alignment.horizontal is None:
+            return 'right' if type(cell.value) is int else 'left'
+        else:
+            return cell.alignment.horizontal
+
+    def get_vertical_align(self, cell):
+        if cell.alignment.vertical is None:
+            return 'bottom'
+        else:
+            return 'top' if cell.alignment.vertical == 'top' else 'middle'
+
     def get_border(self, sheet, row, column):
         cell = sheet.cell(row=row, column=column)
         left_border = cell.border.left.style
@@ -171,7 +183,9 @@ class Feri:
             for column in range(1, self.col_count+1):
 
                 # exploring 
-                print(self.sheet.cell(row=row, column=column).font)
+                print(self.sheet.cell(row=row, column=column).alignment.vertical)
+
+                self.get_text_align(self.sheet.cell(row=row, column=column))
 
                 self.excelData['data'].append({
                     "row": row,
@@ -187,5 +201,7 @@ class Feri:
                     "font_style": self.get_font_style(self.sheet.cell(row=row, column=column)),
                     "text_decoration": self.get_text_decoration(self.sheet.cell(row=row, column=column)),
                     "text_decoration_style": self.get_text_decoration_style(self.sheet.cell(row=row, column=column)),
+                    "text_align": self.get_text_align(self.sheet.cell(row=row, column=column)),
+                    "vertical_align": self.get_vertical_align(self.sheet.cell(row=row, column=column)),
                     "border": self.get_border(self.sheet, row, column)
                 })
