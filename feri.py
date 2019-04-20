@@ -23,7 +23,8 @@ class Feri:
         # Data storage
         self.excelData = {
             "metadata": {},
-            "data": []
+            "rowData": [],
+            "columnData": []
         }
 
         # Number of rows and columns IN USE
@@ -168,14 +169,22 @@ class Feri:
         self.excelData['metadata']['col_count'] = self.col_count
 
         for row in range(1, self.row_count+1):
-            self.excelData['data'].append([])
-            
+            self.excelData['columnData'].append([])
+            self.excelData['rowData'].append([])
+
+            total_row_width = 0
+            total_row_height = 0
+
             for column in range(1, self.col_count+1):
 
                 # exploring 
                 # print(self.sheet.cell(row=row, column=column).alignment.vertical)
 
-                self.excelData['data'][row-1].append({
+                total_row_width += self.get_column_width(column-1)
+                total_row_height = self.get_row_height(self.sheet.row_dimensions[row])
+
+                # Save parameters of each column
+                self.excelData['columnData'][row-1].append({
                     "row": row,
                     "column": column,
                     "value": self.get_value(self.sheet.cell(row=row, column=column)),
@@ -192,4 +201,10 @@ class Feri:
                     "text_align": self.get_text_align(self.sheet.cell(row=row, column=column)),
                     "vertical_align": self.get_vertical_align(self.sheet.cell(row=row, column=column)),
                     "border": self.get_border(self.sheet, row, column)
+                })
+            
+            # Save parameters of each row
+            self.excelData['rowData'][row-1].append({
+                    "height": total_row_height,
+                    "width": total_row_width
                 })

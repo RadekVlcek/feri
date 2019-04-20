@@ -6,13 +6,10 @@ feri = Feri('./feri.xlsx')
 # Save all data
 feri.saveData()
 
-# Print data
-print('\nmetadata:')
-for d in feri.excelData['metadata']:
+for d in feri.excelData['columnData']:
     print(d)
 
-print('\ndata:')
-for d in feri.excelData['data']:
+for d in feri.excelData['rowData']:
     print(d)
 
 # # Export JSON data
