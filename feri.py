@@ -168,12 +168,14 @@ class Feri:
         self.excelData['metadata']['col_count'] = self.col_count
 
         for row in range(1, self.row_count+1):
+            self.excelData['data'].append([])
+            
             for column in range(1, self.col_count+1):
 
                 # exploring 
                 # print(self.sheet.cell(row=row, column=column).alignment.vertical)
 
-                self.excelData['data'].append({
+                self.excelData['data'][row-1].append({
                     "row": row,
                     "column": column,
                     "value": self.get_value(self.sheet.cell(row=row, column=column)),

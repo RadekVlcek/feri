@@ -3,20 +3,22 @@ import json
 
 feri = Feri('./feri.xlsx')
 
-# Data object
-data = feri.excelData
-
 # Save all data
 feri.saveData()
 
 # Print data
-for d in data['data']:
+print('\nmetadata:')
+for d in feri.excelData['metadata']:
+    print(d)
+
+print('\ndata:')
+for d in feri.excelData['data']:
     print(d)
 
 # # Export JSON data
-export_data = json.dumps(data)
+export_data = json.dumps(feri.excelData)
 export_file = open('data.json', 'w')
 export_file.write(export_data)
 export_file.close()
 
-print('done')
+# print('done')
