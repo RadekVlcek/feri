@@ -100,37 +100,25 @@ class Feri:
 
             return width
 
-    def get_value(self, value):
-        if value is not None:
-            return value
-        else:
-            return ''
+    def get_value(self, cell):
+        return cell.value if cell.value is not None else ''
 
     def get_row_height(self, row):
-        height = self.sheet.row_dimensions[row].height
-        if height is not None:
-            return int(height / 0.75)
-        else:
-            return 20
+        return int(row.height / 0.75) if row.height is not None else 20
 
     def get_final_rgb(self, hex_val):
         stripped = hex_val[2:len(hex_val)]
-        if stripped == '000000':
-            return '#FFFFFF'
-        else:
-            return f'#{stripped}'
+        return '#FFFFFF' if stripped == '000000' else f'#{stripped}'
 
     def get_color(self, cell):
         color = cell.font.color
-        if color.type == 'rgb':
-            return self.get_final_rgb(color.rgb)
-        else:
-            return '#000000'
+        return self.get_final_rgb(color.rgb) if color.type == 'rgb' else '#000000'
 
     def get_bg_color(self, cell):
         color = cell.fill.start_color
         if color.type == 'rgb':
             return self.get_final_rgb(color.rgb)
+        # THEME COLORS ISSUE. To be continued...
 
     def get_font_family(self, cell):
         return cell.font.name
@@ -188,8 +176,8 @@ class Feri:
                 self.excelData['data'].append({
                     "row": row,
                     "column": column,
-                    "value": self.get_value(self.sheet.cell(row=row, column=column).value),
-                    "height": self.get_row_height(row),
+                    "value": self.get_value(self.sheet.cell(row=row, column=column)),
+                    "height": self.get_row_height(self.sheet.row_dimensions[row]),
                     "width": self.get_column_width(column-1),
                     "color": self.get_color(self.sheet.cell(row=row, column=column)),
                     "background_color": self.get_bg_color(self.sheet.cell(row=row, column=column)),
