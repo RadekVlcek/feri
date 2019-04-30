@@ -22,7 +22,7 @@ class Feri:
 
         # Data storage
         self.excelData = {
-            "metadata": {},
+            "boardData": {},
             "rowData": [],
             "columnData": []
         }
@@ -165,12 +165,14 @@ class Feri:
             print(f'{row}{column} - row merge end')
 
     def saveData(self):
-        self.excelData['metadata']['row_count'] = self.row_count
-        self.excelData['metadata']['col_count'] = self.col_count
+
+        total_board_height = 0
 
         for row in range(1, self.row_count+1):
             self.excelData['columnData'].append([])
             self.excelData['rowData'].append([])
+
+            total_board_height += self.get_row_height(self.sheet.row_dimensions[row])
 
             total_row_width = 0
             total_row_height = 0
@@ -183,13 +185,12 @@ class Feri:
                 total_row_width += self.get_column_width(column-1)
                 total_row_height = self.get_row_height(self.sheet.row_dimensions[row])
 
-                # Save parameters of each column
+                # Save parameters for each column
                 self.excelData['columnData'][row-1].append({
-                    "row": row,
                     "column": column,
                     "value": self.get_value(self.sheet.cell(row=row, column=column)),
-                    "height": self.get_row_height(self.sheet.row_dimensions[row]),
                     "width": self.get_column_width(column-1),
+                    "height": self.get_row_height(self.sheet.row_dimensions[row]),
                     "color": self.get_color(self.sheet.cell(row=row, column=column)),
                     "background_color": self.get_bg_color(self.sheet.cell(row=row, column=column)),
                     "font_family": self.get_font_family(self.sheet.cell(row=row, column=column)),
@@ -203,8 +204,12 @@ class Feri:
                     "border": self.get_border(self.sheet, row, column)
                 })
             
-            # Save parameters of each row
+            # Save parameters for each row
             self.excelData['rowData'][row-1].append({
-                    "height": total_row_height,
-                    "width": total_row_width
+                    "width": total_row_width,
+                    "height": total_row_height
                 })
+        
+        # Save parameters for the board
+        self.excelData['boardData']['board_width'] = total_row_width
+        self.excelData['boardData']['board_height'] = total_board_height

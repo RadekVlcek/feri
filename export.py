@@ -6,11 +6,12 @@ feri = Feri('./feri.xlsx')
 # Save all data
 feri.saveData()
 
+for d in feri.excelData['rowData']:
+    print(d)
+
 for d in feri.excelData['columnData']:
     print(d)
 
-for d in feri.excelData['rowData']:
-    print(d)
 
 # # Export JSON data
 export_data = json.dumps(feri.excelData)

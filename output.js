@@ -1,9 +1,23 @@
+/**
+ * 1 function to compose and render boardData
+ * 1 function to compose and render rowData
+ * 1 function to compose and render columnData
+ */
+
+/**
+ * Function to handle HTML
+ * Function to handle CSS
+ */
+
 window.onload = fetchData('./data.json');
 
-const HTMLferiBoard = document.getElementById('feriBoard');
+const HTMLBoard = document.getElementById('board');
 const HTMLstyle = document.getElementById('style');
-HTMLstyle.innerHTML = 'body { background-color: red; }';
+HTMLstyle.innerHTML = '#board { border: 1px solid black; }';
+
 var elementCollection = [];
+
+var HtmldataToRender = [];
 
 // Data saved from GET request
 var savedData;
@@ -22,10 +36,15 @@ function fetchData(fD){
 
 // Obtain data in JSON format
 function extractData(savedData){
-    const columnData = savedData.columnData;
+    const boardData = savedData.boardData;
     const rowData = savedData.rowData;
-    const metaData = savedData.metadata;
-    
+    const columnData = savedData.columnData;
+
+    // console.log('Board data', boardData);
+    // console.log('Row data', rowData);
+    // console.log('Column data', columnData);
+
+
     columnData.forEach((row) => {
         elementCollection.push(`<div style="height: ${row[0].height}px">`);
         row.forEach((chunks) => {
@@ -38,8 +57,75 @@ function extractData(savedData){
 
     render(elementCollection);
 
-    // console.log(elementCollection);
+    // testing
+    handleBoardData(boardData);
+    handleRowData(rowData);
+    handleColumnData(columnData);
+   
+    // console.log(HtmldataToRender);
+
+    // TEST
+
+    var board = HtmldataToRender[0];
+    var rows = HtmldataToRender[1];
+    var columns = HtmldataToRender[2];
+
+    for(b in board){        
+        console.log(board[b]);
+
+        for(r in rows){
+            console.log(rows[r]);
+
+            for(c in rows){
+                console.log(columns[c]);
+
+            }
+        }
+    }
 }
+
+board = ["<div id='board'>", "</div>"];
+rows = [`<div id="row1">`, "</div>", `<div id="row2">`, "</div>"];
+columns = [];
+
+function handleBoardData(){
+    HtmldataToRender.push(["<div id='board'>", "<BOAAARD/div>"]);
+}
+
+function handleRowData(rowData){
+    var tempOutput = [];
+    
+    for(row in rowData){
+        tempOutput.push(`<div id="row${(row)}">`);
+        tempOutput.push("<ROOOW/div>");
+    }
+
+    HtmldataToRender.push(tempOutput);
+}
+
+function handleColumnData(columnData){
+    var tempOutput = [];
+
+    columnData.forEach((row, rowIndex) => {
+        row.forEach((column, columnIndex) => {
+            let index = `${rowIndex}${columnIndex}`;
+            let value = column.value;
+            if(value != ''){
+                var id = `${value}${index}`;
+            }   
+            else {
+                var id = `empty${index}`;
+            }
+            
+            tempOutput.push(`<span id="${id}">${value}`);
+            tempOutput.push("</span>");
+        });
+    });
+
+    HtmldataToRender.push(tempOutput);
+}
+
+
 
 // Generate HTML element
 function buildElement(rowData){
@@ -65,5 +151,5 @@ function render(elements){
         this.output += row;
     });
 
-    HTMLferiBoard.innerHTML = output;
+    HTMLBoard.innerHTML = output;
 }
