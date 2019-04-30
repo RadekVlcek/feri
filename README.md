@@ -1,1 +1,1 @@
-XLSX to HTML converter
+XLSX to HTML converter for creating layout maps
